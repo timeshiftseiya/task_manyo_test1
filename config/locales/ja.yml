@@ -26,3 +26,6 @@ ja:
   show_task_page: タスク詳細ページ
   edit_task_page: タスク編集ページ
   update_task: 更新する
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"
