@@ -6,7 +6,8 @@ class TasksController < ApplicationController
     def create
         @task = Task.new(task_params)
         if @task.save
-          redirect_to root_path, notice: t('notice.task_created')
+          redirect_to root_path
+          flash[:notice] = t('notice.task_created')
         else
           render :new
         end
