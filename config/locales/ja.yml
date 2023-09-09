@@ -7,6 +7,7 @@ ja:
         task:
           title: "タイトル"
           content: "コンテンツ"
+          created_at: "作成日時"
       messages:
         blank: "を入力してください"
   notice: 
