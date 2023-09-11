@@ -10,6 +10,7 @@ ja:
           created_at: "作成日時"
       messages:
         blank: "を入力してください"
+        taken: "は既に存在します"
   notice: 
     task_created: タスクを登録しました
     task_updated: タスクを更新しました
