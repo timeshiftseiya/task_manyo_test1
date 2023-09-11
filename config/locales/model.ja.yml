@@ -1,0 +1,12 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        task: "タスク"
+      attributes:
+        task:
+          title: "タイトル"
+          content: "内容"
+          created_at: "作成日時"
+      messages:
+        blank: "を入力してください"
