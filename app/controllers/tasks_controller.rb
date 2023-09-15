@@ -13,7 +13,15 @@ class TasksController < ApplicationController
     end
     
     def index
-      @tasks = Task.all.order(created_at: :desc).page(params[:page])
+      @tasks = Task.all.page(params[:page])
+    
+      if params[:sort_deadline_on] == "true"
+        @tasks = @tasks.order(deadline_on: :asc)
+      elsif params[:sort_priority] == "true"
+        @tasks = @tasks.order(priority: :desc)
+      else
+        @tasks = @tasks.order(created_at: :desc)
+      end
     end
 
     def show
@@ -41,9 +49,10 @@ class TasksController < ApplicationController
         redirect_to tasks_path
     end
 
+
       private
     
     def task_params
-        params.require(:task).permit(:title, :content)
+        params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
     end
 end

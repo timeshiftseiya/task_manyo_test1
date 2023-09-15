@@ -14,6 +14,12 @@
   <%= f.text_field :title %><br>
   <%= f.label :content, t("activerecord.errors.attributes.task.content") %><br>
   <%= f.text_area :content %><br>
+  <%= f.label :deadline_on, t("activerecord.attributes.task.deadline_on") %><br>
+  <%= f.date_field :deadline_on %><br>
+  <%= f.label :priority, t("activerecord.attributes.task.priority") %><br>
+  <%= f.select :priority, Task.priorities.keys, include_blank: true %><br>
+  <%= f.label :status, t("activerecord.attributes.task.status") %><br>
+  <%= f.select :status, Task.statuses.keys, include_blank: true %><br>
   <%= f.submit t("create_task"), id: "create-task" %><br>
 <% end %>
 

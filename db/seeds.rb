@@ -6,3 +6,12 @@ start_date = Time.now # 現在の日時を取得
     created_at: start_date + i.days # 日数を加算して新しい日付を設定
   )
 end
+
+Task.create!(
+
+    title: "aa",
+ content: "aaa",
+ deadline_on: Time.current,
+ priority: 0,
+ status:0
+ )
