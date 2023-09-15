@@ -13,15 +13,38 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
 
   describe '一覧表示機能' do
+    let!(:first_task) { FactoryBot.create(:second_task, title: 'first_task', created_at: '2022-02-18') }
+    let!(:second_task) { FactoryBot.create(:second_task, title: 'second_task', created_at: '2022-02-17') }
+    let!(:third_task) { FactoryBot.create(:second_task, title: 'third_task', created_at: '2022-02-16') }
+    
+    before do
+    visit tasks_path
+    end
+
     context '一覧画面に遷移した場合' do
-      it '登録済みのタスク一覧が表示される' do
-        # テストで使用するためのタスクを登録
-        FactoryBot.create(:second_task)
-        # タスク一覧画面に遷移
+      it '作成済みのタスク一覧が作成日時の降順で表示される' do
+        # タスク一覧ページからすべてのタスクの作成日時を取得
+        task_dates = page.all('.task-created-at').map(&:text)
+        
+        # タスクの作成日時が降順に並んでいることを確認
+        expect(task_dates).to eq(['2022/02/18 00:00', '2022/02/17 00:00', '2022/02/16 00:00'].sort.reverse)
+      end
+    end
+
+    
+    context '新たにタスクを作成した場合' do
+      it '新しいタスクが一番上に表示される' do
+        # タスクを新規作成
+        new_task_title = 'New Task Title'
+        visit new_task_path
+        fill_in 'task[title]', with: new_task_title
+        fill_in 'task[content]', with: new_task_title
+        click_button 'create-task'
+
+        # 一覧画面に戻って新しいタスクが一番上に表示されているか確認
         visit tasks_path
-        # visit（遷移）したpage（この場合、タスク一覧画面）に"書類作成"という文字列が、have_content（含まれていること）をexpect（確認・期待）する
-        expect(page).to have_content '書類作成'
-        # expectの結果が「真」であれば成功、「偽」であれば失敗としてテスト結果が出力される
+        expect(page).to have_content(new_task_title)
+        expect(page).to have_selector('tbody tr:first-child', text: new_task_title)
       end
     end
   end
