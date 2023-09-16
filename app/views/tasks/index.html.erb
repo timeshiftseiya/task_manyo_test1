@@ -1,6 +1,18 @@
 <h1><%= t("tasks_index_page") %></h1>
 
-<table class="task-table">
+<%= form_with(scope: :search, url: tasks_path, method: :get, id: "search_task") do |f| %>
+  <div>
+    <%= f.label :status, t("activerecord.attributes.task.status") %>
+    <%= f.select :status, Task.statuses.keys, include_blank: true %>
+  </div>
+  <div>
+    <%= f.label :title, t("activerecord.errors.attributes.task.title") %>
+    <%= f.text_field :title %>
+  </div>
+  <%= f.submit t("search"), id: "search_task" %>
+<% end %>
+
+<table>
   <thead>
     <tr>
       <th><%= t("activerecord.errors.attributes.task.title") %></th>
@@ -16,7 +28,7 @@
       <tr>
         <td><%= task.title %></td>
         <td><%= task.content %></td>
-        <td class="task-created-at"><%= l task.created_at %></td>
+        <td><%= l task.created_at %></td>
         <td><%= task.deadline_on %></td>
         <td><%= task.priority %></td>
         <td><%= task.status %></td>

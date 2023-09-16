@@ -33,3 +33,4 @@ ja:
   time:
     formats:
       default: "%Y/%m/%d %H:%M"
+  search: 検索

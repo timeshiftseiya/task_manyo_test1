@@ -22,6 +22,17 @@ class TasksController < ApplicationController
       else
         @tasks = @tasks.order(created_at: :desc)
       end
+      
+      if params[:search].present?
+        if params[:search][:title].present?
+          @tasks = @tasks.where("title LIKE ?", "%#{params[:search][:title]}%")
+        end
+    
+        if params[:search][:status].present?
+          status_integer = Task.statuses[params[:search][:status]]
+          @tasks = @tasks.where(status: status_integer)
+        end
+      end
     end
 
     def show
