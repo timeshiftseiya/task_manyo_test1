@@ -1,6 +1,6 @@
 <h1><%= t("tasks_index_page") %></h1>
 
-<%= form_with(scope: :search, url: tasks_path, method: :get, id: "search_task") do |f| %>
+<%= form_with(scope: :search, url: tasks_path, method: :get, id: "search_task", remote: false) do |f| %>
   <div>
     <%= f.label :status, t("activerecord.attributes.task.status") %>
     <%= f.select :status, Task.statuses.keys, include_blank: true %>

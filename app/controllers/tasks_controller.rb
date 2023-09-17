@@ -16,21 +16,20 @@ class TasksController < ApplicationController
       @tasks = Task.all.page(params[:page])
     
       if params[:sort_deadline_on] == "true"
-        @tasks = @tasks.order(deadline_on: :asc)
+        @tasks = @tasks.sorted_by_deadline
       elsif params[:sort_priority] == "true"
-        @tasks = @tasks.order(priority: :desc)
+        @tasks = @tasks.sorted_by_priority
       else
-        @tasks = @tasks.order(created_at: :desc)
+        @tasks = @tasks.sorted_by_created_at
       end
       
       if params[:search].present?
-        if params[:search][:title].present?
-          @tasks = @tasks.where("title LIKE ?", "%#{params[:search][:title]}%")
-        end
-    
-        if params[:search][:status].present?
-          status_integer = Task.statuses[params[:search][:status]]
-          @tasks = @tasks.where(status: status_integer)
+        if params[:search][:title].present? && params[:search][:status].present?
+          @tasks = @tasks.search_by_title(params[:search][:title]).search_by_status(params[:search][:status])
+        elsif params[:search][:title].present?
+          @tasks = @tasks.search_title(params[:search][:title])
+        elsif params[:search][:status].present?
+          @tasks = @tasks.search_status(params[:search][:status])
         end
       end
     end
