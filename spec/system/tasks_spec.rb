@@ -27,7 +27,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         task_dates = page.all('.task-created-at').map(&:text)
         
         # タスクの作成日時が降順に並んでいることを確認
-        expect(task_dates).to eq(['2025/02/18 00:00', '2025/02/17 00:00', '2025/02/16 00:00'].sort.reverse)
+        expect(task_dates).to eq(['2023/02/18 00:00', '2023/02/17 00:00', '2023/02/16 00:00'].sort.reverse)
       end
     end
     
@@ -47,7 +47,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       before do
         visit tasks_path
       end
-      
+  
       context '「終了期限」というリンクをクリックした場合' do
         it "終了期限昇順に並び替えられたタスク一覧が表示される" do
           # ソートリンクをクリックするアクションをシミュレートする
@@ -82,11 +82,11 @@ RSpec.describe 'タスク管理機能', type: :system do
           click_button I18n.t("search")
           
           # 2. 検索結果に指定のタスクが含まれていることを確認
-          expect(page).to have_title('second_task')
+          expect(page).to have_text('second_task')
           
           # 3. 検索結果に含まれていないタスクが表示されていないことを確認
-          expect(page).not_to have_title('first_task')
-          expect(page).not_to have_title('third_task')
+          expect(page).not_to have_text('first_task')
+          expect(page).not_to have_text('third_task')
         end
       end
 
@@ -97,11 +97,11 @@ RSpec.describe 'タスク管理機能', type: :system do
           click_button I18n.t("search")
           
           # 2. 検索結果に指定のステータスに一致するタスクが含まれていることを確認
-          expect(page).to have_title('second_task')
+          expect(page).to have_text('second_task')
           
           # 3. 検索結果に含まれていないステータスのタスクが表示されていないことを確認
-          expect(page).not_to have_title('first_task')
-          expect(page).not_to have_title('third_task')
+          expect(page).not_to have_text('first_task')
+          expect(page).not_to have_text('third_task')
         end
       end
 
@@ -109,16 +109,31 @@ RSpec.describe 'タスク管理機能', type: :system do
         it "検索ワードをタイトルに含み、かつステータスに一致するタスクのみ表示される" do
           # 1. タイトルとステータスで検索をシミュレートする
           fill_in 'search[title]', with: 'task'
-          select '0', from: 'search_task[status]'
-          click_button t("search")
+          select '着手中', from: 'search[status]'
+          click_button I18n.t("search")
           
           # 2. 検索結果に指定の条件に一致するタスクが含まれていることを確認
-          expect(page).to have_title('first_task')
+          expect(page).to have_text('second_task')
           
           # 3. 検索結果に含まれていないタスクが表示されていないことを確認
-          expect(page).not_to have_title('second_task')
-          expect(page).not_to have_title('third_task')
+          expect(page).not_to have_text('first_task')
+          expect(page).not_to have_text('third_task')
         end
+      end
+    end
+    
+    context '新たにタスクを作成した場合' do
+      it '新しいタスクが一番上に表示される' do
+        # タスクを新規作成
+        @task = FactoryBot.create(:task)
+
+        # 一覧画面に戻って新しいタスクが一番上に表示されているか確認
+        visit tasks_path
+        expect(page).to have_content('登録表示のテスト内容')
+        expect(page).to have_selector('tbody tr:first-child', text: '登録表示のテスト内容')
+
+        # テスト中にデータベースに変更を加えた後、データベースの状態を確認
+        expect(Task.count).to eq(4) # タスクが1つ追加されたことを確認
       end
     end
   end
@@ -132,6 +147,18 @@ RSpec.describe 'タスク管理機能', type: :system do
       visit task_path(@task)
       expect(page).to have_content '詳細テスト'
       expect(page).to have_content '詳細表示のテスト内容'
+    end
+  end
+
+  describe "キャッシュが正しく機能しているかどうかを確認" do
+    it "データキャッシュ" do
+      # データをキャッシュ
+      Rails.cache.write('some_key', 'some_value')
+  
+      # キャッシュからデータを取得
+      cached_data = Rails.cache.read('some_key')
+  
+      expect(cached_data).to eq('some_value')
     end
   end
 

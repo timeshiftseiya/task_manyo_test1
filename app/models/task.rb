@@ -16,6 +16,7 @@ class Task < ApplicationRecord
   
     scope :search_title, ->(title) { where("title LIKE ?", "%#{title}%") }
     scope :search_status, ->(status) { where(status: statuses[status]) }
+
 end
 
 

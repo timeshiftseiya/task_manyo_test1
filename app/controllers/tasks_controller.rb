@@ -25,7 +25,7 @@ class TasksController < ApplicationController
       
       if params[:search].present?
         if params[:search][:title].present? && params[:search][:status].present?
-          @tasks = @tasks.search_by_title(params[:search][:title]).search_by_status(params[:search][:status])
+          @tasks = @tasks.search_title(params[:search][:title]).search_status(params[:search][:status])
         elsif params[:search][:title].present?
           @tasks = @tasks.search_title(params[:search][:title])
         elsif params[:search][:status].present?
