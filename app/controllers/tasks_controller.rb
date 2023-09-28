@@ -22,14 +22,19 @@ class TasksController < ApplicationController
       else
         @tasks = @tasks.sorted_by_created_at
       end
-      
+    
+      logger.debug "Search Params: #{params[:search]}"
+      logger.debug "SQL Query: #{@tasks.to_sql}"
       if params[:search].present?
         if params[:search][:title].present? && params[:search][:status].present?
           @tasks = @tasks.search_title(params[:search][:title]).search_status(params[:search][:status])
+          flash[:notice] = "タイトルとステータスどっちも検索できました"
         elsif params[:search][:title].present?
           @tasks = @tasks.search_title(params[:search][:title])
+          flash[:notice] = "タイトルで検索できました"
         elsif params[:search][:status].present?
           @tasks = @tasks.search_status(params[:search][:status])
+          flash[:notice] = "ステータスで検索できました"
         end
       end
     end

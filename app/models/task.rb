@@ -11,7 +11,7 @@ class Task < ApplicationRecord
     paginates_per 10
 
     scope :sorted_by_deadline, -> { order(deadline_on: :asc) }
-    scope :sorted_by_priority, -> { order(priority: :asc) }
+    scope :sorted_by_priority, -> { order(priority: :desc) }
     scope :sorted_by_created_at, -> { order(created_at: :desc) }
   
     scope :search_title, ->(title) { where("title LIKE ?", "%#{title}%") }
