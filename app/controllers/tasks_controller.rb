@@ -13,7 +13,30 @@ class TasksController < ApplicationController
     end
     
     def index
-      @tasks = Task.all.order(created_at: :desc).page(params[:page])
+      @tasks = Task.all.page(params[:page])
+    
+      if params[:sort_deadline_on] == "true"
+        @tasks = @tasks.sorted_by_deadline
+      elsif params[:sort_priority] == "true"
+        @tasks = @tasks.sorted_by_priority
+      else
+        @tasks = @tasks.sorted_by_created_at
+      end
+    
+      logger.debug "Search Params: #{params[:search]}"
+      logger.debug "SQL Query: #{@tasks.to_sql}"
+      if params[:search].present?
+        if params[:search][:title].present? && params[:search][:status].present?
+          @tasks = @tasks.search_title(params[:search][:title]).search_status(params[:search][:status])
+          flash[:notice] = "タイトルとステータスどっちも検索できました"
+        elsif params[:search][:title].present?
+          @tasks = @tasks.search_title(params[:search][:title])
+          flash[:notice] = "タイトルで検索できました"
+        elsif params[:search][:status].present?
+          @tasks = @tasks.search_status(params[:search][:status])
+          flash[:notice] = "ステータスで検索できました"
+        end
+      end
     end
 
     def show
@@ -41,9 +64,10 @@ class TasksController < ApplicationController
         redirect_to tasks_path
     end
 
+
       private
     
     def task_params
-        params.require(:task).permit(:title, :content)
+        params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
     end
 end

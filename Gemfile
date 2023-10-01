@@ -39,6 +39,7 @@ group :development, :test do
   gem 'rexml'
   gem 'factory_bot_rails'
   gem 'pry-rails'
+  gem 'database_cleaner'
 end
 
 group :development do
