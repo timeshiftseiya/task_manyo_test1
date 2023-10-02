@@ -1,12 +1,25 @@
 class User < ApplicationRecord
     before_validation { email.downcase! }
     has_secure_password
-
-    validates :name, presence: { message: "名前を入力してください" }
-    validates :email, presence: { message: "メールアドレスを入力してください" }
-    validates :email, uniqueness: { message: "メールアドレスはすでに使われています" }
-    validates :password_digest, presence: { message: "パスワードを入力してください" }
-    validates :password, length: { minimum: 6, message: "パスワードは6文字以上で入力してください" }
+    validates :name, presence: true
+    validates :email, presence: true
+    validates :email, uniqueness: true
+    validates :password, length: { minimum: 6, message: "は6文字以上で入力してください" }
     validates :password_confirmation, presence: true
+    validate :password_confirmation_matches
 
+    has_many :tasks, dependent: :destroy
+
+    def destroy_with_tasks
+      self.destroy
+    end
+
+    private
+
+    def password_confirmation_matches
+      if password.present? && password_confirmation.present? && password != password_confirmation
+        errors.add(:password_confirmation, "パスワード（確認）とパスワードの入力が一致しません")
+      end
+    end
+    
   end

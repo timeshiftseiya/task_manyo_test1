@@ -10,14 +10,23 @@
   </head>
 
   <body>
-    <header>
+    <header>    
       <% flash.each do |key, value| %>
         <%= content_tag(:div, value, class: "#{key}") %>
       <% end %>
+
       <ul>
+      <% if logged_in? %>
         <li><%= link_to t("tasks_index"), root_path, id: "tasks-index" %></li>
         <li><%= link_to t("new_task"), new_task_path, id: "new-task" %></li>
-      </ul>
+        <li><%#= link_to "アカウント設定", user_path(current_user.id), id: "account-setting" %></li>
+        <li><%= link_to t("logout"), session_path(current_user.id), method: :delete, id: "sign-out" %></li>
+      <% else %>
+        <li><%= link_to t("sign-up"), new_user_path, id: "sign-up" %></li>
+        <li><%= link_to t("sign-in"), new_session_path, id: "sign-in" %></li>
+      <% end %>
+    </ul>
+
     </header>
     <%= yield %>
   </body>
