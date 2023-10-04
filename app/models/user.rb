@@ -14,6 +14,10 @@ class User < ApplicationRecord
     self.destroy
   end
 
+  def task_total
+    tasks.count
+  end
+  
   private
 
   def password_confirmation_matches
