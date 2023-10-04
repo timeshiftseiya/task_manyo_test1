@@ -13,7 +13,7 @@ class TasksController < ApplicationController
     end
     
     def index
-      @tasks = Task.all.page(params[:page])
+      @tasks = current_user.tasks
     
       if params[:sort_deadline_on] == "true"
         @tasks = @tasks.sorted_by_deadline

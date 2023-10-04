@@ -3,6 +3,10 @@ ja:
     errors:
       models:
         task: タスク
+        user: 
+          attributes:
+            password_confirmation:
+              confirmation: "とパスワードの入力が一致しません"        
     attributes:
       task:
         title: タイトル
@@ -16,14 +20,15 @@ ja:
         name: 名前
         email: メールアドレス
         password_confirmation: パスワード（確認）
-      messages:
-        blank: を入力してください
+    messages:
+    blank: を入力してください
   notice: 
     task_created: タスクを登録しました
     task_updated: タスクを更新しました
     task_destroyed: タスクを削除しました
   tasks_index: タスク一覧
   new_task: タスクを登録する
+  show_task: アカウント設定
   tasks_index_page: タスク一覧ページ
   show: 詳細
   edit: 編集
