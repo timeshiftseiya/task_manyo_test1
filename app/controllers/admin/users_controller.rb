@@ -14,8 +14,7 @@ class Admin::UsersController < ApplicationController
         @user.admin = params[:user][:admin] == 'true'
         if @user.save
             log_in(@user)
-            flash[:success_registration] = 'ユーザを登録しました'
-            redirect_to admin_users_path
+            redirect_to admin_users_path, notice: t('notice.admin_user_created')
         else
             render :new
         end
@@ -34,7 +33,7 @@ class Admin::UsersController < ApplicationController
         @user = User.find(params[:id])
         @user.admin = params[:user][:admin] == 'true'
         if @user.update(user_params)
-          flash[:success] = 'ユーザを更新しました'
+          flash[:notice] = t('notice.admin_user_updated')
           redirect_to admin_users_path
         else
           render :edit
@@ -45,9 +44,9 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
     
     if @user.destroy_with_tasks
-        flash[:success] = 'ユーザを削除しました'
+        flash[:success] = t('notice.admin_user_destroyed')
     else
-        flash[:alert] = '管理者が0人になるため削除できません'
+        flash[:notice] = t('notice.admin_user_cannot_destroyed')
     end
 
     redirect_to admin_users_path

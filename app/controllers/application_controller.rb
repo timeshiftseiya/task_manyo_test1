@@ -7,10 +7,10 @@ class ApplicationController < ActionController::Base
     def login_required
       redirect_to new_session_path unless current_user
     end
-    
+
     def admin_required
       unless current_user&.admin?
-        flash[:alert] = "管理者以外アクセスできません"
+        flash[:alert] = t('notice.admin_cannot_access')
         redirect_to root_path
       end
     end

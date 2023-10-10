@@ -33,6 +33,17 @@ ja:
     task_created: タスクを登録しました
     task_updated: タスクを更新しました
     task_destroyed: タスクを削除しました
+    admin_user_created: ユーザを登録しました
+    admin_user_updated: ユーザを更新しました
+    admin_user_destroyed: ユーザを削除しました
+    admin_user_cannot_destroyed: 管理者が0人になるため削除できません
+    admin_cannot_access: 管理者以外アクセスできません
+    notice.logined: ログインしました
+    wrong_email_password: メールアドレスまたはパスワードに誤りがあります
+    notice.logout: ログアウトしました
+    searched_title_status: タイトルとステータスどっちも検索できました
+    searched_title: タイトルで検索できました
+    searched_status: ステータスで検索できました
   tasks_index: タスク一覧
   new_task: タスクを登録する
   show_task: アカウント設定
