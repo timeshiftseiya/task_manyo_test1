@@ -6,7 +6,9 @@ ja:
         user: 
           attributes:
             password_confirmation:
-              confirmation: "とパスワードの入力が一致しません"       
+              confirmation: "とパスワードの入力が一致しません"  
+            email:
+              taken: "はすでに使われています"     
     attributes:
       task:
         title: タイトル
@@ -23,6 +25,8 @@ ja:
         admin: 管理者権限
         task_total: タスク数
         users-index_page: ユーザ一覧ページ
+        true: あり
+        false: なし
     messages:
     blank: を入力してください
   notice: 
@@ -66,5 +70,3 @@ ja:
   admin: 管理者権限
   admin-user-show-page: ユーザ詳細ページ
   admin-user-edit-page: ユーザ編集ページ
-  yes: あり
-  no: なし

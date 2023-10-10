@@ -5,6 +5,7 @@ class TasksController < ApplicationController
 
     def create
         @task = Task.new(task_params)
+        @task.user_id = current_user.id
         if @task.save
           redirect_to root_path, notice: t('notice.task_created')
         else
@@ -14,6 +15,7 @@ class TasksController < ApplicationController
     
     def index
       @tasks = current_user.tasks
+      @tasks = @tasks.page(params[:page])
     
       if params[:sort_deadline_on] == "true"
         @tasks = @tasks.sorted_by_deadline
@@ -23,8 +25,6 @@ class TasksController < ApplicationController
         @tasks = @tasks.sorted_by_created_at
       end
     
-      logger.debug "Search Params: #{params[:search]}"
-      logger.debug "SQL Query: #{@tasks.to_sql}"
       if params[:search].present?
         if params[:search][:title].present? && params[:search][:status].present?
           @tasks = @tasks.search_title(params[:search][:title]).search_status(params[:search][:status])

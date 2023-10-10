@@ -22,5 +22,5 @@
     <%= f.label :admin, t("admin") %><br>
     <%= f.check_box :admin %><br><br>
     <%= f.submit t("update-user"), id: "update-user" %><br><br>
-    <%= link_to t("back"), admin_user_path(@user), id: "back"  %>
+    <%= link_to t("back"), admin_users_url, id: "back"  %>
 <% end %>

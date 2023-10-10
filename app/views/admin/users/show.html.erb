@@ -2,9 +2,7 @@
 
 <p><%= t("name") %>: <%= @user.name %></p>
 <p><%= t("email") %>: <%= @user.email %></p>
-<p><%= t("admin
-admin
-admin") %>: <%= @user.email %></p>
+<p><%= t("activerecord.attributes.user.admin") %>: <%= @user.admin ? t("activerecord.attributes.user.true") : t("activerecord.attributes.user.false") %></p>
 
 <% if @tasks.any? %>
   <table>
@@ -31,9 +29,6 @@ admin") %>: <%= @user.email %></p>
       <% end %>
     </tbody>
   </table>
-  <%= paginate @tasks %>
-<% else %>
-  <p>タスクが存在しません。</p>
 <% end %>
 
-<%= link_to "Back", :back %>
+<%= link_to t("back"), admin_users_url, id: "back"  %>
