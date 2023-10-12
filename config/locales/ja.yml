@@ -1,12 +1,16 @@
 ja:
   activerecord:
     errors:
+      messages:
+        record_invalid: "無効なデータが含まれています。"
       models:
         task: タスク
         user: 
           attributes:
             password_confirmation:
-              confirmation: "とパスワードの入力が一致しません"  
+              confirmation: "とパスワードの入力が一致しません" 
+            name:
+              blank: "を入力してください"
             email:
               taken: "はすでに使われています"     
     attributes:
@@ -28,7 +32,7 @@ ja:
         true: あり
         false: なし
     messages:
-    blank: を入力してください
+      blank: を入力してください
   notice: 
     task_created: タスクを登録しました
     task_updated: タスクを更新しました
@@ -38,12 +42,13 @@ ja:
     admin_user_destroyed: ユーザを削除しました
     admin_user_cannot_destroyed: 管理者が0人になるため削除できません
     admin_cannot_access: 管理者以外アクセスできません
-    notice.logined: ログインしました
+    logined: ログインしました
     wrong_email_password: メールアドレスまたはパスワードに誤りがあります
-    notice.logout: ログアウトしました
+    logout: ログアウトしました
     searched_title_status: タイトルとステータスどっちも検索できました
     searched_title: タイトルで検索できました
     searched_status: ステータスで検索できました
+    account_created: アカウントを登録しました
   tasks_index: タスク一覧
   new_task: タスクを登録する
   show_task: アカウント設定
