@@ -11,9 +11,9 @@ class Admin::UsersController < ApplicationController
 
     def create
         @user = User.new(user_params)
-        @user.admin = params[:user][:admin] == 'true'
+        #　@user.admin = params[:user][:admin] == 'true'
         if @user.save
-            log_in(@user)
+            # log_in(@user)
             redirect_to admin_users_path, notice: t('notice.admin_user_created')
         else
             render :new

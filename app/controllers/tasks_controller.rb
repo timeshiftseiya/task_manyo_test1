@@ -1,4 +1,7 @@
 class TasksController < ApplicationController
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :check_task_access, only: [:show, :edit]
+
     def new
         @task = Task.new
     end
@@ -69,5 +72,16 @@ class TasksController < ApplicationController
     
     def task_params
         params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
+    end
+
+    def set_task
+      @task = Task.find(params[:id])
+    end
+  
+    def check_task_access
+      if @task.user != current_user
+        flash[:alert] = "アクセス権限がありません"
+        redirect_to tasks_path
+      end
     end
 end

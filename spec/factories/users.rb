@@ -1,12 +1,21 @@
+# ユーザーファクトリー（通常のユーザー）
 FactoryBot.define do
   factory :user do
-    id {1}
-    name { "MyString" }
-    email { "MyString" }
-    password { "MyString" }
-    password_confirmation { "MyString" }
-    admin {true}
-    created_at {'2023-02-18'}
-    updated_at {'2023-03-18'}
+    name { "UserTest" }
+    email { "usertest@example.com" }
+    password { "UserTest" }
+    password_confirmation { "UserTest" }
+    admin { false }
+  end
+end
+
+# ユーザーファクトリー（管理者ユーザー）
+FactoryBot.define do
+  factory :admin_user, class: 'User' do
+    name { "AdminUserTest" }
+    email { "adminusertest@example.com" }
+    password { "AdminUserTest" }
+    password_confirmation { "AdminUserTest" }
+    admin { true }
   end
 end

@@ -2,7 +2,7 @@ ja:
   activerecord:
     errors:
       messages:
-        record_invalid: "無効なデータが含まれています。"
+        record_invalid: "エラー内容はこちらです: %{errors}"
       models:
         task: タスク
         user: 
@@ -49,6 +49,8 @@ ja:
     searched_title: タイトルで検索できました
     searched_status: ステータスで検索できました
     account_created: アカウントを登録しました
+    login_required: ログインしてください
+    logout_required: ログアウトしてください
   tasks_index: タスク一覧
   new_task: タスクを登録する
   show_task: アカウント設定
