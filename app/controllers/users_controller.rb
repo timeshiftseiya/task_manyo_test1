@@ -11,7 +11,7 @@ class UsersController < ApplicationController
         if @user.save
             log_in(@user)
             flash[:success_registration] = t('notice.account_created')
-            redirect_to user_path(@user.id)
+            redirect_to root_path
         else
             render :new
         end

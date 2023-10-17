@@ -1,11 +1,10 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
   before_action :login_required
-  before_action :logout_required, only: [:new, :create]
-  
-  
+  before_action :logout_required, only: [:new, :create], unless: -> { is_admin_controller? }
+
   private
-  
+
   def login_required
     unless current_user
       flash[:alert] = t('notice.login_required')
@@ -25,5 +24,9 @@ class ApplicationController < ActionController::Base
       flash[:alert] = t('notice.logout_required')
       redirect_to tasks_path
     end
+  end
+
+  def is_admin_controller?
+    controller_path.starts_with?('admin/')
   end
 end

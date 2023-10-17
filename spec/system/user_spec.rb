@@ -21,8 +21,9 @@ RSpec.describe 'ユーザ管理機能', type: :system do
         visit tasks_path
       end
       it 'ログイン画面に遷移し、「ログインしてください」というメッセージが表示される' do
-          visit new_session_path
-          expect(page).to have_content 'ログインしてください'
+        #visit new_session_path
+        flash_message = find('.alert') 
+        expect(flash_message).to have_content('ログインしてください')
       end
     end
   end
@@ -37,8 +38,9 @@ RSpec.describe 'ユーザ管理機能', type: :system do
         click_button 'create-session'
       end
       it 'タスク一覧画面に遷移し、「ログインしました」というメッセージが表示される' do
-          visit tasks_path
-          expect(page).to have_content 'ログインしました'
+        #visit tasks_path
+        flash_message = find('.alert') # フラッシュメッセージをラップした要素を選択
+        expect(flash_message).to have_content('ログインしました')
       end
       it '自分の詳細画面にアクセスできる' do
           visit user_path(@user)
@@ -70,17 +72,55 @@ RSpec.describe 'ユーザ管理機能', type: :system do
         expect(page).to have_content 'ユーザ一覧ページ'
       end
       it '管理者を登録できる' do
+        visit new_admin_user_path
+        fill_in 'user_name', with: 'New User'
+        fill_in 'user_email', with: 'newuser@example.com'
+        fill_in 'user_password', with: 'newpassword'
+        fill_in 'user_password_confirmation', with: 'newpassword'
+        check 'user_admin'
+        click_button 'create-user'
+        expect(page).to have_content 'ユーザを登録しました'
       end
       it 'ユーザ詳細画面にアクセスできる' do
+        user = FactoryBot.create(:user)
+        visit admin_user_path(user)
+        expect(page).to have_content 'ユーザ詳細ページ'
       end
       it 'ユーザ編集画面から、自分以外のユーザを編集できる' do
-      end
+        user = FactoryBot.create(:user)
+        user_id = user.id
+        save_and_open_page
+        visit edit_admin_user_path(user)
+        fill_in 'user_name', with: 'Updated Name'
+        #binding.pry
+        click_button 'update-user' 
+        user.reload 
+        expect(user.name).to eq 'Updated Name'  
+      end      
       it 'ユーザを削除できる' do
+        user = FactoryBot.create(:user, name: 'DestroyUser')
+        visit admin_users_path
+        within('table#user-table') do
+          row = find('tr', text: user.name)
+          row.find_link(I18n.t("destroy")).click
+        end
+        expect(page).to have_content 'ユーザを削除しました'
       end
     end
 
     context '一般ユーザがユーザ一覧画面にアクセスした場合' do
+      before do
+        user = FactoryBot.create(:user)
+        visit new_session_path
+        fill_in 'session_email', with: user.email
+        fill_in 'session_password', with: user.password
+        click_button 'create-session'
+        visit admin_users_path
+      end
       it 'タスク一覧画面に遷移し、「管理者以外アクセスできません」というエラーメッセージが表示される' do
+        expect(page).to have_content 'タスク一覧ページ'
+        flash_message = find('.alert') # フラッシュメッセージをラップした要素を選択
+        expect(flash_message).to have_content('管理者以外アクセスできません')
       end
     end
   end
