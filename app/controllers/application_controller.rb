@@ -20,10 +20,14 @@ class ApplicationController < ActionController::Base
   end
 
   def logout_required
-    if current_user
+    if current_user && is_task_registration_action?
       flash[:alert] = t('notice.logout_required')
       redirect_to tasks_path
     end
+  end
+  
+  def is_task_registration_action?
+    controller_name == 'tasks' && action_name == 'new' && request.post?
   end
 
   def is_admin_controller?

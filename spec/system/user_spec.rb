@@ -89,10 +89,9 @@ RSpec.describe 'ユーザ管理機能', type: :system do
       it 'ユーザ編集画面から、自分以外のユーザを編集できる' do
         user = FactoryBot.create(:user)
         user_id = user.id
-        save_and_open_page
         visit edit_admin_user_path(user)
         fill_in 'user_name', with: 'Updated Name'
-        #binding.pry
+        binding.pry
         click_button 'update-user' 
         user.reload 
         expect(user.name).to eq 'Updated Name'  

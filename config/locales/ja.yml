@@ -53,7 +53,7 @@ ja:
     logout_required: ログアウトしてください
   tasks_index: タスク一覧
   new_task: タスクを登録する
-  show_task: アカウント設定
+  show_user: アカウント設定
   tasks_index_page: タスク一覧ページ
   show: 詳細
   edit: 編集
@@ -83,7 +83,7 @@ ja:
   user-show-page: アカウント詳細ページ
   sign-in-page: ログインページ
   users_index: ユーザ一覧
-  add_user: ユーザ登録
+  add_user: ユーザを登録する
   user-sign-up-page: ユーザ登録ページ
   admin: 管理者権限
   admin-user-show-page: ユーザ詳細ページ

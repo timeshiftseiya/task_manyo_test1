@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   before_destroy :check_last_admin
+  before_update :check_last_admin
   
   before_validation { email.downcase! }
   has_secure_password

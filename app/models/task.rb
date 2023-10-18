@@ -21,3 +21,4 @@ class Task < ApplicationRecord
 end
 
 
+# id: 1, name: "admintest", email: "admintest@test.com", password: "admintest", password_confirmation: "admintest", admin: true, created_at: Time.now, updated_at: Time.now
