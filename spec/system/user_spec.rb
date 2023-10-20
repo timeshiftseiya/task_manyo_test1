@@ -91,10 +91,10 @@ RSpec.describe 'ユーザ管理機能', type: :system do
         user_id = user.id
         visit edit_admin_user_path(user)
         fill_in 'user_name', with: 'Updated Name'
-        binding.pry
+        fill_in 'user_password', with: 'UserTest'
+        fill_in 'user_password_confirmation', with: 'UserTest'
         click_button 'update-user' 
-        user.reload 
-        expect(user.name).to eq 'Updated Name'  
+        expect(page).to have_content("Updated Name")
       end      
       it 'ユーザを削除できる' do
         user = FactoryBot.create(:user, name: 'DestroyUser')

@@ -77,7 +77,7 @@ ja:
   email: メールアドレス
   password: パスワード
   password_confirmation: パスワード（確認）
-  create-user: 登録
+  create-user: 登録する
   user-edit-page: アカウント編集ページ
   update-user: 更新する
   user-show-page: アカウント詳細ページ
