@@ -12,7 +12,9 @@ ja:
             name:
               blank: "を入力してください"
             email:
-              taken: "はすでに使われています"     
+              taken: "はすでに使用されています"
+            password:
+              too_short: "は%{count}文字以上で入力してください"
     attributes:
       task:
         title: タイトル

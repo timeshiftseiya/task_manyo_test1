@@ -31,14 +31,25 @@ class Admin::UsersController < ApplicationController
     
     def update
         @user = User.find(params[:id])
-        @user.admin = params[:user][:admin] == 'true'
-        if @user.update(user_params)
+        new_admin_value = params[:user][:admin] == 'false'
+        Rails.logger.debug "new_admin_value: #{new_admin_value}"
+        Rails.logger.debug "Current admin count: #{User.where(admin: true).count}"
+      
+        if new_admin_value && User.where(admin: true).count <= 1
+          flash[:alert] = t('alert.last_admin_update')
+          redirect_to admin_users_path
+          return
+        end
+      
+        if @user.update(user_params.merge(admin: new_admin_value))
           flash[:notice] = t('notice.admin_user_updated')
           redirect_to admin_users_path
         else
           render :edit
         end
-    end
+      end
+
+      #user = User.new(name: "admintest8", email: "admintest8@test.com", password: "admintest8", password_confirmation: "admintest8", admin: true)
 
     def destroy
     @user = User.find(params[:id])
@@ -46,7 +57,7 @@ class Admin::UsersController < ApplicationController
     if @user.destroy_with_tasks
         flash[:success] = t('notice.admin_user_destroyed')
     else
-        flash[:notice] = t('notice.admin_user_cannot_destroyed')
+        flash[:notice] = t('notice.')
     end
 
     redirect_to admin_users_path

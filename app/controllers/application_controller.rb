@@ -15,12 +15,12 @@ class ApplicationController < ActionController::Base
   def admin_required
     unless current_user&.admin?
       flash[:alert] = t('notice.admin_cannot_access')
-      redirect_to root_path
+      redirect_to tasks_path
     end
   end
 
   def logout_required
-    if current_user && is_task_registration_action?
+    if (current_user && is_task_registration_action?) || (current_user && current_user.admin?)
       flash[:alert] = t('notice.logout_required')
       redirect_to tasks_path
     end

@@ -80,7 +80,7 @@ class TasksController < ApplicationController
   
     def check_task_access
       if @task.user != current_user
-        flash[:alert] = "アクセス権限がありません"
+        flash[:alert] = "本人以外アクセスできません"
         redirect_to tasks_path
       end
     end
