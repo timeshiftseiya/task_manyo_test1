@@ -9,8 +9,6 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :email, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }
-  validates :password_confirmation, presence: true
-  validate :password_confirmation_matches
 
   has_many :tasks, dependent: :destroy
 
@@ -24,11 +22,6 @@ class User < ApplicationRecord
   
   private
 
-  def password_confirmation_matches
-    if password.present? && password_confirmation.present? && password != password_confirmation
-      errors.add(:password_confirmation, "とパスワードの入力が一致しません")
-    end
-  end
 
   def check_last_admin
     if admin? && User.where(admin: true).count <= 1
